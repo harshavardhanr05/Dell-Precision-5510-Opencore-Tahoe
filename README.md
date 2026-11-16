@@ -21,11 +21,11 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
 | CPU | Intel Core i7-6820HQ (Skylake, 4C/8T) | ✅ Native power management (CPUFriend + `SSDT-PLUG`) |
 | iGPU | Intel HD Graphics 530 | ✅ Spoofed as HD 630 (Kaby Lake), full Metal acceleration |
 | dGPU | NVIDIA Quadro M1000M | ⛔ Disabled (`SSDT-DGPU`), not supported by macOS |
-| Wi-Fi / Bluetooth | Intel Dual Band Wireless-AC 8260 | ✅ Wi-Fi (AirportItlwm) · Bluetooth not yet verified on Tahoe |
+| Wi-Fi / Bluetooth | Intel Dual Band Wireless-AC 8260 | ✅ Wi-Fi (AirportItlwm) and Bluetooth (IntelBluetoothFirmware) |
 | Audio | Realtek ALC3266 (ALC298) | ✅ Speakers and headphone jack (AppleALC + SimpleHDA on Tahoe) |
-| Touchpad | I2C HID | VoodooI2C + VoodooI2CHID |
-| Keyboard | PS/2 | VoodooPS2Controller |
-| Card reader | Realtek PCIe | Sinetek-rtsx |
+| Touchpad | I2C HID | ✅ VoodooI2C + VoodooI2CHID, including gestures |
+| Keyboard | PS/2 | ✅ VoodooPS2Controller |
+| Card reader | Realtek PCIe | ✅ Sinetek-rtsx |
 | Storage | NVMe | ✅ NVMeFix |
 | Display | Internal 4K UHD (3840×2160) | ✅ See [Known issues](#known-issues) for scaled-mode flicker |
 
@@ -46,6 +46,10 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
 - **Graphics:** full acceleration as HD 630, 2048 MB VRAM, Metal.
 - **Wi-Fi:** native Tahoe AirportItlwm, **no OCLP root patch needed**.
 - **Audio:** speakers and headphone jack.
+- **Bluetooth:** Intel 8260 Bluetooth (lshbluesky IntelBluetoothFirmware fork).
+- **USB:** all ports (USBToolBox map).
+- **Touchpad:** multi-touch gestures (VoodooI2C).
+- **Card reader:** Realtek, via Sinetek-rtsx.
 - **Boot experience:** clean, with no verbose text or OpenCore logging.
 
 ### Not working / not supported
@@ -54,11 +58,6 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
 - **WPA3-only Wi-Fi networks:** not supported by the Tahoe AirportItlwm alpha.
 
 ### Not yet verified on Tahoe
-- Bluetooth
-- Sleep / wake
-- Every USB port
-- Touchpad gestures
-- Card reader
 - External displays over HDMI or USB-C
 
 ## Known issues
@@ -68,6 +67,8 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
    - If you hit this, panic reports in `/Library/Logs/DiagnosticReports/*panic*` are welcome as issues.
 2. **Flicker in scaled 4K modes** ("More Space", e.g. *looks like* 2560×1440). This started with Ventura and comes from running the Kaby Lake driver on Skylake hardware. Windows and Monterey with the native Skylake driver don't flicker.
    - **Workaround:** use the default *looks like 1920×1080*, or 2048×1152.
+3. **Sleep / wake (Tahoe).** After waking, the display stays black. Under investigation.
+   - First make sure hibernation is off: `sudo pmset -a hibernatemode 0 standby 0 autopoweroff 0`.
 
 ## Before you use it
 
