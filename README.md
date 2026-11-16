@@ -9,8 +9,7 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
 </p>
 
 > [!WARNING]
-> **Generate your own SMBIOS before you boot this EFI.**
-> The serial number, MLB, UUID and ROM in `config.plist` are placeholders. See [SMBIOS](#smbios).
+> **This EFI contains my machine's SMBIOS identity** (serial number, MLB, UUID and ROM). If you use it on another machine, generate your own first. See [SMBIOS](#smbios).
 
 ---
 
@@ -72,22 +71,22 @@ OpenCore 1.0.8 EFI for the **Dell Precision 5510** (i7-6820HQ, Skylake). It boot
 
 ## Before you use it
 
-1. Generate your own SMBIOS (see below).
+1. On another machine, generate your own SMBIOS (see below).
 2. Use the usual Dortania Skylake laptop BIOS settings. See the [Dortania Skylake laptop guide](https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/skylake.html).
 3. Test from a USB stick first: copy `EFI/` to the root of the USB's EFI partition.
 
 ### SMBIOS
 
-Generate a `MacBookPro16,1` serial with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) or OCAT. Then fill in these keys under `PlatformInfo → Generic`:
+`config.plist` includes the full `MacBookPro16,1` SMBIOS identity for my machine, kept here for quick access.
 
-| Key | Placeholder in this repo |
-|---|---|
-| `SystemSerialNumber` | `W00000000001` |
-| `MLB` | `M0000000000000001` |
-| `SystemUUID` | `00000000-0000-0000-0000-000000000000` |
-| `ROM` | `112233445566`. Use your NIC's MAC address. |
+To use this EFI on another machine, generate a new `MacBookPro16,1` serial with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) or OCAT. Then replace these keys under `PlatformInfo → Generic`:
 
-Check the serial on [Apple's coverage page](https://checkcoverage.apple.com). It should come back as **invalid**, so it can't clash with a real Mac.
+- `SystemSerialNumber`
+- `MLB`
+- `SystemUUID`
+- `ROM`: use that machine's NIC MAC address.
+
+Check the new serial on [Apple's coverage page](https://checkcoverage.apple.com). It should come back as **invalid**, so it can't clash with a real Mac.
 
 ## Installing Tahoe
 
